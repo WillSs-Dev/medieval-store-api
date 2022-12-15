@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import ProductsService from '../services/products.services';
 
 class ProductsController {
-  public service: ProductsService;
+  private service: ProductsService;
 
   constructor() {
     this.service = new ProductsService();

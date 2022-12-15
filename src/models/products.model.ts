@@ -3,7 +3,7 @@ import Product from '../types/product';
 // import dbd from './connection';
 
 class ProductsModel {
-  public db: Pool;
+  private db: Pool;
 
   constructor(db: Pool) {
     this.db = db;
