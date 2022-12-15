@@ -9,7 +9,6 @@ class ProductsController {
   }
 
   public getAll = async (__req: Request, res: Response) => {
-    // console.log(this.service.getAll());
     const products = await this.service.getAll();
     return res.status(200).json(products);
   };
