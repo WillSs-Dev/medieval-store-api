@@ -21,7 +21,6 @@ class UserModel {
     const query = `SELECT * FROM Trybesmith.users
     WHERE username = ? AND password = ?`;
     const [[user]] = await this.db.execute<RowDataPacket[] & User>(query, [username, password]);
-    console.log(user);
     return user as User;
   }
 }

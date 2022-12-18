@@ -1,5 +1,6 @@
-import { Pool } from 'mysql2/promise';
+import { Pool, ResultSetHeader } from 'mysql2/promise';
 import Order from '../types/order';
+import OrderRequest from '../types/orderRequest';
 
 class OrdersModel {
   private db: Pool;
@@ -17,6 +18,21 @@ class OrdersModel {
     const [rows] = await this.db.execute(query);
     return rows as Order[];
   }
+
+  public add = async (orderRequest: OrderRequest) => {
+    let query = 'INSERT INTO Trybesmith.orders(user_id) VALUE(?)';
+
+    const [{ insertId }] = await this.db.execute<ResultSetHeader>(query, [orderRequest.userId]);
+
+    query = `UPDATE Trybesmith.products
+    SET order_id = ?
+    WHERE id = ?`;
+
+    const { productsIds } = orderRequest;
+    const mappedPromisses = productsIds.map((id) => this.db.execute(query, [insertId, id]));
+    const resolved = await Promise.all(mappedPromisses);
+    return resolved;
+  };
 }
 
 export default OrdersModel;
